@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 
@@ -39,6 +38,31 @@ public class User {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
+    @OneToOne(mappedBy = "user")
+    private Cart cart;
+
+    @ManyToMany
+    @JoinTable(
+        name = "wishlist_products",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "product_id")
+    )
+    private Set<Product> wishlist = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles =new HashSet<>();
+
+    @OneToMany(mappedBy = "user")
+    private Set<Order> orders = new HashSet<>();
+
+    @OneToMany(mappedBy = "user")
+    private Set<Review> reviews = new HashSet<>();
+
     @PrePersist
     private void onCreate(){
         createdAt = LocalDateTime.now();
@@ -49,18 +73,4 @@ public class User {
     private void onUpdate(){
         updatedAt = LocalDateTime.now();
     }
-
-    @OneToOne(mappedBy = "user")
-    private Cart cart;
-
-    @OneToOne(mappedBy = "user")
-    private Wishlist wishlist;
-
-    @ManyToMany
-    @JoinTable(
-            name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    private Set<Role> roles =new HashSet<>();
 }

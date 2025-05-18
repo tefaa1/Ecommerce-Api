@@ -57,9 +57,15 @@ public class Product {
     @OneToMany(mappedBy = "product")
     private Set<CartItem> cartItems =new HashSet<>();
 
-    @ManyToMany(mappedBy = "products")
-    private Set<Wishlist>wishlists = new HashSet<>();
+    @ManyToMany(mappedBy = "wishlist")
+    private Set<User> wishlistedBy = new HashSet<>();
 
+    @OneToMany(mappedBy = "product")
+    private Set<OrderItem> orderItems = new HashSet<>();
+
+    @OneToMany(mappedBy = "product")
+    private Set<Review> reviews = new HashSet<>();
+    
     @PrePersist
     private void onCreate(){
         createdAt = LocalDateTime.now();
@@ -76,5 +82,46 @@ public class Product {
         BigDecimal discountAmount = price.multiply(BigDecimal.valueOf(discount))
                                        .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
         return price.subtract(discountAmount);
+    }
+
+    public void addCartItem(CartItem cartItem) {
+        cartItems.add(cartItem);
+        cartItem.setProduct(this);
+    }
+
+    public void removeCartItem(CartItem cartItem) {
+        cartItems.remove(cartItem);
+        cartItem.setProduct(null);
+    }
+
+   
+    public void addWishlistedBy(User user) {
+        wishlistedBy.add(user);
+        user.getWishlist().add(this);
+    }
+
+    public void removeWishlistedBy(User user) {
+        wishlistedBy.remove(user);
+        user.getWishlist().remove(this);
+    }
+
+    public void addOrderItem(OrderItem orderItem) {
+        orderItems.add(orderItem);
+        orderItem.setProduct(this);
+    }
+
+    public void removeOrderItem(OrderItem orderItem) {
+        orderItems.remove(orderItem);
+        orderItem.setProduct(null);
+    }
+
+    public void addReview(Review review) {
+        reviews.add(review);
+        review.setProduct(this);
+    }
+
+    public void removeReview(Review review) {
+        reviews.remove(review);
+        review.setProduct(null);
     }
 }
