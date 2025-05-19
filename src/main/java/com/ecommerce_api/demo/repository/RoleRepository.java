@@ -2,6 +2,8 @@ package com.ecommerce_api.demo.repository;
 
 import com.ecommerce_api.demo.entity.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
@@ -9,4 +11,7 @@ import java.util.Optional;
 public interface RoleRepository extends JpaRepository<Role, Long> {
     Optional<Role> findByName(String name);
     boolean existsByName(String name);
+
+    @Query("SELECT r FROM Role R LEFT JOIN FETCH r.users WHERE r.id = :roleId")
+    Optional<Role>findRoleWithUsersByRoleId(@Param("roleId") Long roleId);
 } 
