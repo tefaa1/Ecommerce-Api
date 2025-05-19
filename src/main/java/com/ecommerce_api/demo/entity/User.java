@@ -15,7 +15,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -38,14 +38,14 @@ public class User {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
     private Cart cart;
 
     @ManyToMany
     @JoinTable(
-        name = "wishlist_products",
-        joinColumns = @JoinColumn(name = "user_id"),
-        inverseJoinColumns = @JoinColumn(name = "product_id")
+            name = "wishlist_products",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id")
     )
     private Set<Product> wishlist = new HashSet<>();
 
@@ -60,7 +60,7 @@ public class User {
     @OneToMany(mappedBy = "user")
     private Set<Order> orders = new HashSet<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
     private Set<Review> reviews = new HashSet<>();
 
     @PrePersist
@@ -72,5 +72,45 @@ public class User {
     @PreUpdate
     private void onUpdate(){
         updatedAt = LocalDateTime.now();
+    }
+
+    public void addOrder(Order order) {
+        orders.add(order);
+        order.setUser(this);
+    }
+
+    public void removeOrder(Order order) {
+        orders.remove(order);
+        order.setUser(null);
+    }
+
+    public void addReview(Review review) {
+        reviews.add(review);
+        review.setUser(this);
+    }
+
+    public void removeReview(Review review) {
+        reviews.remove(review);
+        review.setUser(null);
+    }
+
+    public void addRole(Role role) {
+        roles.add(role);
+        role.getUsers().add(this);
+    }
+
+    public void removeRole(Role role) {
+        roles.remove(role);
+        role.getUsers().remove(this);
+    }
+
+    public void addToWishlist(Product product) {
+        wishlist.add(product);
+        product.getWishlistedBy().add(this);
+    }
+
+    public void removeFromWishlist(Product product) {
+        wishlist.remove(product);
+        product.getWishlistedBy().remove(this);
     }
 }

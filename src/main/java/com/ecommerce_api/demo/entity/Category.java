@@ -26,7 +26,7 @@ public class Category {
 
     @Column(length = 1000)
     private String description;
-    
+
     @Column(nullable = false)
     private String imageUrl;
 
@@ -36,7 +36,7 @@ public class Category {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "category", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     private Set<Product> products =new HashSet<>();
 
     @PrePersist
@@ -49,4 +49,14 @@ public class Category {
     private void onUpdate(){
         updatedAt = LocalDateTime.now();
     }
-} 
+
+    public void addProduct(Product product) {
+        products.add(product);
+        product.setCategory(this);
+    }
+
+    public void removeProduct(Product product) {
+        products.remove(product);
+        product.setCategory(null);
+    }
+}

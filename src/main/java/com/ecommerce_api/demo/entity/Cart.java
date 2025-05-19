@@ -12,7 +12,7 @@ public class Cart {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long Id;
 
     @Column(nullable = false)
     private LocalDateTime createdAt;
@@ -24,7 +24,7 @@ public class Cart {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "cart")
+    @OneToMany(mappedBy = "cart",cascade = CascadeType.ALL,orphanRemoval = true)
     private Set<CartItem> cartItems =new HashSet<>();
 
     @PrePersist
@@ -36,5 +36,15 @@ public class Cart {
     @PreUpdate
     private void onUpdate(){
         updatedAt = LocalDateTime.now();
+    }
+
+    public void addCartItem(CartItem cartItem) {
+        cartItems.add(cartItem);
+        cartItem.setCart(this);
+    }
+
+    public void removeCartItem(CartItem cartItem) {
+        cartItems.remove(cartItem);
+        cartItem.setCart(null);
     }
 }

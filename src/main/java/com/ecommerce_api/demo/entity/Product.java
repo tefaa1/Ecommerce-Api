@@ -54,7 +54,7 @@ public class Product {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<CartItem> cartItems =new HashSet<>();
 
     @ManyToMany(mappedBy = "wishlist")
@@ -63,9 +63,9 @@ public class Product {
     @OneToMany(mappedBy = "product")
     private Set<OrderItem> orderItems = new HashSet<>();
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Review> reviews = new HashSet<>();
-    
+
     @PrePersist
     private void onCreate(){
         createdAt = LocalDateTime.now();
@@ -75,12 +75,12 @@ public class Product {
     @PreUpdate
     private void onUpdate(){
         updatedAt = LocalDateTime.now();
-    }   
+    }
 
     @Transient
     public BigDecimal getNewPrice() {
         BigDecimal discountAmount = price.multiply(BigDecimal.valueOf(discount))
-                                       .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
+                .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
         return price.subtract(discountAmount);
     }
 
@@ -94,7 +94,7 @@ public class Product {
         cartItem.setProduct(null);
     }
 
-   
+
     public void addWishlistedBy(User user) {
         wishlistedBy.add(user);
         user.getWishlist().add(this);
