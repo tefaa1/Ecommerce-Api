@@ -12,7 +12,7 @@ public class Cart {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long id;
 
     @Column(nullable = false)
     private LocalDateTime createdAt;
@@ -47,4 +47,5 @@ public class Cart {
         cartItems.remove(cartItem);
         cartItem.setCart(null);
     }
+
 }
