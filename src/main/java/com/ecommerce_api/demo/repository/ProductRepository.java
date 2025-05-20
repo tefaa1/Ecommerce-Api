@@ -10,9 +10,6 @@ import java.util.Optional;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
-    List<Product> findByCategoryId(Long categoryId);
-    List<Product> findByNameContainingIgnoreCase(String name);
-
     @Query("SELECT p FROM Product p LEFT JOIN FETCH p.cartItems WHERE p.id = :productId")
     Optional<Product> findProductWithCartItems(@Param("productId") Long productId);
 

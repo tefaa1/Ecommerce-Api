@@ -9,9 +9,6 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    Optional<User> findByEmail(String email);
-    boolean existsByEmail(String email);
-
     @Query("SELECT u FROM User u LEFT JOIN FETCH u.wishlist WHERE u.id = :userId")
     Optional<User> findUserWithWishlistById(@Param("userId") Long userId);
 
