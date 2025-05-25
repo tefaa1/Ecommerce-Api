@@ -1,7 +1,6 @@
 package com.ecommerce_api.demo.services;
 
-import com.ecommerce_api.demo.entity.Order;
-import com.ecommerce_api.demo.entity.Product;
+import com.ecommerce_api.demo.model.entity.Product;
 
 import java.util.List;
 

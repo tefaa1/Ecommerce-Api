@@ -1,6 +1,6 @@
 package com.ecommerce_api.demo.services;
 
-import com.ecommerce_api.demo.entity.Cart;
+import com.ecommerce_api.demo.model.entity.Cart;
 import com.ecommerce_api.demo.repository.CartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

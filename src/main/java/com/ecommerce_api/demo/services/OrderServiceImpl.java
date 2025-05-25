@@ -1,6 +1,6 @@
 package com.ecommerce_api.demo.services;
 
-import com.ecommerce_api.demo.entity.Order;
+import com.ecommerce_api.demo.model.entity.Order;
 import com.ecommerce_api.demo.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

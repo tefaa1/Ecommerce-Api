@@ -1,7 +1,8 @@
-package com.ecommerce_api.demo.entity;
+package com.ecommerce_api.demo.model.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
@@ -16,6 +17,7 @@ import jakarta.persistence.FetchType;
 @Table(name = "categories")
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

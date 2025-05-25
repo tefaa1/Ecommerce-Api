@@ -1,6 +1,6 @@
 package com.ecommerce_api.demo.services;
 
-import com.ecommerce_api.demo.entity.Cart;
+import com.ecommerce_api.demo.model.entity.Cart;
 import java.util.List;
 
 public interface CartService {

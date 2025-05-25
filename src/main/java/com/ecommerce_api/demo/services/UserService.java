@@ -1,7 +1,6 @@
 package com.ecommerce_api.demo.services;
 
-import com.ecommerce_api.demo.entity.Role;
-import com.ecommerce_api.demo.entity.User;
+import com.ecommerce_api.demo.model.entity.User;
 import java.util.List;
 
 public interface UserService {

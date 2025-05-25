@@ -1,6 +1,6 @@
 package com.ecommerce_api.demo.services;
 
-import com.ecommerce_api.demo.entity.Role;
+import com.ecommerce_api.demo.model.entity.Role;
 import com.ecommerce_api.demo.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

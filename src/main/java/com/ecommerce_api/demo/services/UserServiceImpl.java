@@ -1,8 +1,7 @@
 package com.ecommerce_api.demo.services;
 
-import com.ecommerce_api.demo.entity.User;
+import com.ecommerce_api.demo.model.entity.User;
 import com.ecommerce_api.demo.repository.UserRepository;
-import org.hibernate.validator.internal.constraintvalidators.bv.time.future.FutureValidatorForReadablePartial;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

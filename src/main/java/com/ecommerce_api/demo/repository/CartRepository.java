@@ -1,6 +1,6 @@
 package com.ecommerce_api.demo.repository;
 
-import com.ecommerce_api.demo.entity.Cart;
+import com.ecommerce_api.demo.model.entity.Cart;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

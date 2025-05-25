@@ -1,7 +1,6 @@
 package com.ecommerce_api.demo.services;
 
-import com.ecommerce_api.demo.entity.Category;
-import com.ecommerce_api.demo.entity.Order;
+import com.ecommerce_api.demo.model.entity.Order;
 import java.util.List;
 
 public interface OrderService {

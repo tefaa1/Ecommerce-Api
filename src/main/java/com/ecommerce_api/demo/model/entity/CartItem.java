@@ -1,8 +1,9 @@
-package com.ecommerce_api.demo.entity;
+package com.ecommerce_api.demo.model.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Builder
 public class CartItem {
 
     @Id

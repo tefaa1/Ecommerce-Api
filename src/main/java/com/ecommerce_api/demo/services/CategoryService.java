@@ -1,7 +1,6 @@
 package com.ecommerce_api.demo.services;
 
-import com.ecommerce_api.demo.entity.Cart;
-import com.ecommerce_api.demo.entity.Category;
+import com.ecommerce_api.demo.model.entity.Category;
 import java.util.List;
 
 public interface CategoryService {
