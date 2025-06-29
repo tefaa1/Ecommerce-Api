@@ -10,18 +10,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserRequestDTO {
+public class ChangeUserFullNameRequestDTO {
 
     @NotBlank
-    private String firstName;
+    String firstName;
 
     @NotBlank
-    private String lastName;
-
-    @NotBlank
-    private String email;
-
-    @NotBlank
-    private String password;
-
+    String lastName;
 }

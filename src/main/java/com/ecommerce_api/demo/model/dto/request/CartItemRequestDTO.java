@@ -10,9 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CartItemUpdateRequestDTO {
+public class CartItemRequestDTO {
 
-    // It's called 'update' because any request to the cart will be an update.
 
     @NotNull
     private Long productId;

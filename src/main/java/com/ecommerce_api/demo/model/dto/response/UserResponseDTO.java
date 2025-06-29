@@ -1,5 +1,6 @@
 package com.ecommerce_api.demo.model.dto.response;
 
+import com.ecommerce_api.demo.model.entity.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,13 +21,14 @@ public class UserResponseDTO {
 
     private String lastName;
 
+    private Role role;
+
     private String email;
 
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
 
-    private Long cartId;
+    private CartResponseDTO cartResponseDTO;
 
-    private Set<RoleResponseDTO> roles;
 }

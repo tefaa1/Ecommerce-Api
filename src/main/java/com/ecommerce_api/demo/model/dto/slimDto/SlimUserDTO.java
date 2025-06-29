@@ -1,4 +1,4 @@
-package com.ecommerce_api.demo.model.dto.response;
+package com.ecommerce_api.demo.model.dto.slimDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class RoleResponseDTO {
+public class SlimUserDTO {
+
     private Long id;
-    private String name;
+
+    private String firstName;
+
+    private String lastName;
+
+    private String email;
 }

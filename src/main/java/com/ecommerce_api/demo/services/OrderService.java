@@ -1,14 +1,17 @@
 package com.ecommerce_api.demo.services;
 
+import com.ecommerce_api.demo.model.dto.response.OrderResponseDTO;
+import com.ecommerce_api.demo.model.entity.Cart;
 import com.ecommerce_api.demo.model.entity.Order;
+import org.aspectj.weaver.ast.Or;
+
 import java.util.List;
 
 public interface OrderService {
-    Order saveOrder(Order order);
-    Order updateOrder(Long id, Order order);
-    Order getOrderById(Long id);
-    Order getOrderWithOrderItems(Long id);
-    List<Order> getAllOrders();
-    void deleteOrderById(Long id);
-    void deleteAllOrders();
+    void saveOrder();
+    OrderResponseDTO getOrderById(Long id);
+    List<OrderResponseDTO> getAllOrdersForSpecificUser();
+    List<OrderResponseDTO> getAllOrders();
+
+    Order converCartToOrder(Cart cart);
 } 

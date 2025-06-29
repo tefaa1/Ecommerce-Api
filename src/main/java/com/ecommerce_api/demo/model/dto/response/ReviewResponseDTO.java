@@ -1,5 +1,7 @@
 package com.ecommerce_api.demo.model.dto.response;
 
+import com.ecommerce_api.demo.model.dto.slimDto.SlimUserDTO;
+import com.ecommerce_api.demo.model.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,8 +23,8 @@ public class ReviewResponseDTO {
 
     private LocalDateTime createdAt;
 
-    private Long productId;
+    private ProductResponseDTO productResponseDTO;
 
-    private Long userId;
+    private SlimUserDTO slimUserDTO;
 
 }

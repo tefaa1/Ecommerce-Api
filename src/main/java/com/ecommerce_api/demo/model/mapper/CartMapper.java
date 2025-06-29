@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 @Component
 public class CartMapper {
 
-    public static CartResponseDTO toDto(Cart cart){
+    public CartResponseDTO toDto(Cart cart){
         return CartResponseDTO.builder()
                 .id(cart.getId())
                 .createdAt(cart.getCreatedAt())

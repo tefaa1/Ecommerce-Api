@@ -9,25 +9,10 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    @Query("SELECT u FROM User u LEFT JOIN FETCH u.wishlist WHERE u.id = :userId")
-    Optional<User> findUserWithWishlistById(@Param("userId") Long userId);
+    Optional<User> findByEmail(String email);
 
-    @Query("SELECT u FROM User u LEFT JOIN FETCH u.roles WHERE u.id = :userId")
-    Optional<User> findUserWithRolesById(@Param("userId") Long userId);
+    Boolean existsByEmail(String email);
 
-    @Query("SELECT u FROM User u LEFT JOIN FETCH u.orders WHERE u.id = :userId")
-    Optional<User> findUserWithOrdersById(@Param("userId") Long userId);
-
-    @Query("SELECT u FROM User u LEFT JOIN FETCH u.reviews WHERE u.id = :userId")
-    Optional<User> findUserWithReviewsById(@Param("userId") Long userId);
-
-    @Query("""
-    SELECT u FROM User u
-    LEFT JOIN FETCH u.wishlist
-    LEFT JOIN FETCH u.roles
-    LEFT JOIN FETCH u.orders
-    LEFT JOIN FETCH u.reviews
-    WHERE u.id = :userId
-    """)
-    Optional<User> findUserWithAllRelationsById(@Param("userId") Long userId);
-} 
+    @Query("SELECT u FROM User u LEFT JOIN FETCH u.orders WHERE u.email = :email")
+    Optional<User> findUserWithOrdersByEmail(@Param("email") String email);
+}

@@ -1,14 +1,17 @@
 package com.ecommerce_api.demo.services;
 
+import com.ecommerce_api.demo.model.dto.request.CategoryRequestDTO;
+import com.ecommerce_api.demo.model.dto.request.ProductRequestDTO;
+import com.ecommerce_api.demo.model.dto.response.CategoryResponseDTO;
 import com.ecommerce_api.demo.model.entity.Category;
 import java.util.List;
 
 public interface CategoryService {
-    Category saveCategory(Category category);
-    Category updateCategory(Long id, Category category);
-    Category getCategoryById(Long id);
-    Category getCategoryWithProducts(Long id);
-    List<Category> getAllCategories();
+    CategoryResponseDTO saveCategory(CategoryRequestDTO categoryRequestDTO);
+    void updateCategory(Long categoryId, CategoryRequestDTO categoryRequestDTO);
+    void addProductToCategory(Long productId, Long categoryId);
+    void deleteProductFromCategory(Long productId, Long categoryId);
+    CategoryResponseDTO getCategoryByIdWithProducts(Long id);
+    List<CategoryResponseDTO> getAllCategories();
     void deleteCategoryById(Long id);
-    void deleteAllCategories();
 } 

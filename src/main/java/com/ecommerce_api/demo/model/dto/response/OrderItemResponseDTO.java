@@ -15,7 +15,7 @@ public class OrderItemResponseDTO {
 
     private Long id;
 
-    private Long productId;
+    private ProductResponseDTO productResponseDTO;
 
     private Integer quantity;
 
