@@ -3,6 +3,7 @@ package com.ecommerce_api.demo.services;
 import com.ecommerce_api.demo.exception.ResourceNotFoundException;
 import com.ecommerce_api.demo.model.dto.request.CategoryRequestDTO;
 import com.ecommerce_api.demo.model.dto.response.CategoryResponseDTO;
+import com.ecommerce_api.demo.model.dto.slimDto.SlimCategoryDTO;
 import com.ecommerce_api.demo.model.entity.Category;
 import com.ecommerce_api.demo.model.entity.Product;
 import com.ecommerce_api.demo.model.mapper.CategoryMapper;
@@ -19,7 +20,7 @@ public class CategoryServiceImpl implements CategoryService{
 
     private final CategoryRepository categoryRepository;
 
-    private final ProductRepository productRepository;
+    private final ProductService productService;
 
     private final CategoryMapper categoryMapper;
 
@@ -27,12 +28,12 @@ public class CategoryServiceImpl implements CategoryService{
     @Autowired
     public CategoryServiceImpl(CategoryRepository categoryRepository,
                                CategoryMapper categoryMapper,
-                               ProductRepository productRepository)
+                               ProductService productService)
     {
 
         this.categoryRepository = categoryRepository;
         this.categoryMapper = categoryMapper;
-        this.productRepository = productRepository;
+        this.productService = productService;
     }
     @Override
     public CategoryResponseDTO saveCategory(CategoryRequestDTO categoryRequestDTO) {
@@ -61,8 +62,7 @@ public class CategoryServiceImpl implements CategoryService{
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new ResourceNotFoundException("Category with ID " + categoryId + " not found"));
 
-        Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new ResourceNotFoundException("Product with ID " + productId + " not found"));
+        Product product = productService.getProductEntityById(productId);
 
         if(product.getCategory() != null){
             throw new IllegalArgumentException("Product is already assigned to a another category");
@@ -78,8 +78,7 @@ public class CategoryServiceImpl implements CategoryService{
         Category category = categoryRepository.findCategoryWithProductsByCategoryId(categoryId)
                 .orElseThrow(() -> new ResourceNotFoundException("Category with ID " + categoryId + " not found"));
 
-        Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new ResourceNotFoundException("Product with ID " + productId + " not found"));
+        Product product = productService.getProductEntityById(productId);
 
         if(!category.getProducts().contains(product)){
             throw new IllegalArgumentException("Product is not exist in this category");
@@ -99,13 +98,12 @@ public class CategoryServiceImpl implements CategoryService{
     }
 
     @Override
-    public List<CategoryResponseDTO> getAllCategories() {
+    public List<SlimCategoryDTO> getAllCategories() {
 
-        List<Category>categories = categoryRepository.findAllCategoriesWithProductsById()
-                .orElseThrow(() -> new ResourceNotFoundException("There is no categories"));
+        List<Category>categories = categoryRepository.findAll();
 
         return categories.stream()
-                .map(categoryMapper::toDto)
+                .map(categoryMapper::toSlimDto)
                 .collect(Collectors.toList());
     }
 

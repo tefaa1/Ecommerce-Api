@@ -1,5 +1,6 @@
 package com.ecommerce_api.demo.model.entity;
 
+import com.ecommerce_api.demo.model.dto.response.ProductResponseDTO;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;

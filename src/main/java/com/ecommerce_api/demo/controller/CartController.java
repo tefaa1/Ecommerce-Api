@@ -23,28 +23,37 @@ public class CartController {
     }
 
     @GetMapping
-    ResponseEntity<CartResponseDTO>getCart(){
+    ResponseEntity<?>getCart(){
 
         return ResponseEntity.ok().body(cartService.getCart());
     }
 
-    @GetMapping("/all")
-    ResponseEntity<List<CartResponseDTO>>getAllCarts(){
+    @GetMapping("/admin/all")
+    ResponseEntity<?>getAllCarts(){
 
         return ResponseEntity.ok().body(cartService.getAllCarts());
     }
 
-    @PostMapping
-    public ResponseEntity<Void>addCartItem(@RequestBody @Valid CartItemRequestDTO cartItemRequestDTO){
+    @PostMapping("/{productId}")
+    public ResponseEntity<?>addCartItem(@RequestBody @Valid CartItemRequestDTO cartItemRequestDTO,
+                                        @PathVariable Long productId){
 
-        cartService.addProductToCart(cartItemRequestDTO);
+        cartService.addProductToCart(cartItemRequestDTO,productId);
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void>removeCartItem(@PathVariable Long id){
+    @DeleteMapping("/items/{cartItemId}")
+    public ResponseEntity<?>removeCartItem(@PathVariable Long cartItemId){
 
-        cartService.removeProductFromCart(id);
+        cartService.removeProductFromCart(cartItemId);
+        return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping("/{cartItemId}/{UpOrDown}")
+    public ResponseEntity<?>modifyCartItemQuantity(@PathVariable Long cartItemId,
+                                                   @PathVariable Boolean UpOrDown){
+
+        cartService.modifyQuantityOfCartItem(cartItemId,UpOrDown);
         return ResponseEntity.ok().build();
     }
 }

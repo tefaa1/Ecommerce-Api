@@ -1,5 +1,7 @@
 package com.ecommerce_api.demo.model.dto.response;
 
+import com.ecommerce_api.demo.model.dto.slimDto.SlimProductDTO;
+import com.ecommerce_api.demo.model.dto.slimDto.SlimUserDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,7 +17,7 @@ public class OrderItemResponseDTO {
 
     private Long id;
 
-    private ProductResponseDTO productResponseDTO;
+    private SlimProductDTO slimProductDTO;
 
     private Integer quantity;
 

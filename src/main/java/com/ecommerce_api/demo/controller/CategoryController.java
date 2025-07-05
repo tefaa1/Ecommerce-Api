@@ -2,6 +2,7 @@ package com.ecommerce_api.demo.controller;
 
 import com.ecommerce_api.demo.model.dto.request.CategoryRequestDTO;
 import com.ecommerce_api.demo.model.dto.response.CategoryResponseDTO;
+import com.ecommerce_api.demo.model.dto.slimDto.SlimCategoryDTO;
 import com.ecommerce_api.demo.services.CategoryService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,28 +25,28 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CategoryResponseDTO>getCategory(@PathVariable Long id){
+    public ResponseEntity<?>getCategory(@PathVariable Long id){
 
         CategoryResponseDTO categoryResponseDTO= categoryService.getCategoryByIdWithProducts(id);
         return ResponseEntity.ok().body(categoryResponseDTO);
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<List<CategoryResponseDTO>>getAllCategories(){
+    @GetMapping
+    public ResponseEntity<?>getAllCategories(){
 
-        List<CategoryResponseDTO>categoryResponseDTOS = categoryService.getAllCategories();
-        return ResponseEntity.ok().body(categoryResponseDTOS);
+        List<SlimCategoryDTO>slimCategoryDTOS = categoryService.getAllCategories();
+        return ResponseEntity.ok().body(slimCategoryDTOS);
     }
 
     @PostMapping
-    public ResponseEntity<CategoryResponseDTO>createCategory(@RequestBody @Valid CategoryRequestDTO categoryRequestDTO){
+    public ResponseEntity<?>createCategory(@RequestBody @Valid CategoryRequestDTO categoryRequestDTO){
 
         CategoryResponseDTO categoryResponseDTO = categoryService.saveCategory(categoryRequestDTO);
         return new ResponseEntity<>(categoryResponseDTO, HttpStatus.CREATED);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Void>updateCategory(
+    public ResponseEntity<?>updateCategory(
             @PathVariable Long id,
             @RequestBody @Valid CategoryRequestDTO categoryRequestDTO){
 
@@ -54,7 +55,7 @@ public class CategoryController {
     }
 
     @PostMapping("/{categoryId}/products/{productId}")
-    public ResponseEntity<Void> addProductToCategory(
+    public ResponseEntity<?> addProductToCategory(
             @PathVariable Long categoryId,
             @PathVariable Long productId) {
 
@@ -63,7 +64,7 @@ public class CategoryController {
     }
 
     @DeleteMapping("/{categoryId}/products/{productId}")
-    public ResponseEntity<Void> deleteProductFromCategory(
+    public ResponseEntity<?> deleteProductFromCategory(
             @PathVariable Long categoryId,
             @PathVariable Long productId) {
 
@@ -72,7 +73,7 @@ public class CategoryController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void>deleteCategory(@PathVariable Long id){
+    public ResponseEntity<?>deleteCategory(@PathVariable Long id){
 
         categoryService.deleteCategoryById(id);
         return ResponseEntity.ok().build();

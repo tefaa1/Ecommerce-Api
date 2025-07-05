@@ -23,26 +23,26 @@ public class OrderController {
     }
 
     @PostMapping
-    ResponseEntity<Void>createOrder(){
+    ResponseEntity<?>createOrder(){
 
         orderService.saveOrder();
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<OrderResponseDTO>getOrderById(@PathVariable Long id){
+    ResponseEntity<?>getOrderById(@PathVariable Long id){
 
         return ResponseEntity.ok().body(orderService.getOrderById(id));
     }
 
-    @GetMapping("/myOrders")
-    ResponseEntity<List<OrderResponseDTO>>getOrdersForTheAuthenticatedUser(){
+    @GetMapping
+    ResponseEntity<?>getOrdersForTheAuthenticatedUser(){
 
         return ResponseEntity.ok().body(orderService.getAllOrdersForSpecificUser());
     }
 
-    @GetMapping("/allOrders")
-    ResponseEntity<List<OrderResponseDTO>>getAllOrdersForTheAdmin(){
+    @GetMapping("/admin/all")
+    ResponseEntity<?>getAllOrdersForTheAdmin(){
 
         return ResponseEntity.ok().body(orderService.getAllOrders());
     }

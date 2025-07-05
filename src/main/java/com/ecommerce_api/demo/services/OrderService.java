@@ -12,6 +12,4 @@ public interface OrderService {
     OrderResponseDTO getOrderById(Long id);
     List<OrderResponseDTO> getAllOrdersForSpecificUser();
     List<OrderResponseDTO> getAllOrders();
-
-    Order converCartToOrder(Cart cart);
 } 

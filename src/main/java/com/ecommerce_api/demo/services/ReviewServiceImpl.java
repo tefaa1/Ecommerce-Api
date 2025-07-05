@@ -25,37 +25,34 @@ public class ReviewServiceImpl implements ReviewService{
 
     private final ReviewRepository reviewRepository;
     private final ReviewMapper reviewMapper;
-    private final UserRepository userRepository;
-    private final ProductRepository productRepository;
+    private final UserService userService;
+    private final ProductService productService;
 
     @Autowired
     public ReviewServiceImpl(ReviewRepository reviewRepository,
                              ReviewMapper reviewMapper,
-                             UserRepository userRepository,
-                             ProductRepository productRepository) {
+                             UserService userService,
+                             ProductService productService) {
 
         this.reviewRepository = reviewRepository;
         this.reviewMapper = reviewMapper;
-        this.userRepository = userRepository;
-        this.productRepository = productRepository;
+        this.userService = userService;
+        this.productService = productService;
     }
 
     @Override
     public void saveReview(ReviewRequestDTO reviewRequestDTO) {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = authentication.getName();
+        String email = userService.getTheCurrentUserEmail();
 
         if(reviewRepository.existsByUserEmailAndProductId(email,reviewRequestDTO.getProductId())){
            throw new RuntimeException("you already have a review for this product");
         }
         else{
-            User user = userRepository.findByEmail(email)
-                    .orElseThrow(() -> new ResourceNotFoundException("User with Email " + email + " not found"));
+            User user = userService.getUserByEmail(email);
 
             Long productId = reviewRequestDTO.getProductId();
-            Product product = productRepository.findById(productId)
-                    .orElseThrow(() -> new ResourceNotFoundException("Product with ID " + productId + " not found"));
+            Product product = productService.getProductEntityById(productId);
 
             Review review = reviewMapper.toEntity(reviewRequestDTO,user,product);
             reviewRepository.save(review);
@@ -76,8 +73,7 @@ public class ReviewServiceImpl implements ReviewService{
     @Override
     public List<ReviewResponseDTO> getAllReviewsForUser() {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = authentication.getName();
+        String email = userService.getTheCurrentUserEmail();
 
         List<Review> reviews = reviewRepository.findAllByUserEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("There is no reviews for you"));
@@ -111,8 +107,7 @@ public class ReviewServiceImpl implements ReviewService{
     @Override
     public void deleteReviewById(Long id) {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = authentication.getName();
+        String email = userService.getTheCurrentUserEmail();
 
         Review review = reviewRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Review with ID " + id + " not found"));

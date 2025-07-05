@@ -7,35 +7,34 @@ import com.ecommerce_api.demo.model.entity.Cart;
 import com.ecommerce_api.demo.model.entity.CartItem;
 import com.ecommerce_api.demo.model.entity.Product;
 import com.ecommerce_api.demo.repository.ProductRepository;
+import com.ecommerce_api.demo.services.ProductService;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CartItemMapper {
 
-    private final ProductRepository productRepository;
+    private final ProductService productService;
 
     private static ProductMapper productMapper;
 
     public CartItemMapper(
-            ProductRepository productRepository,
+            ProductService productService,
             ProductMapper productMapper){
 
-        this.productRepository = productRepository;
+        this.productService = productService;
         this.productMapper = productMapper;
     }
     public static CartItemResponseDTO toDto(CartItem cartItem){
         return CartItemResponseDTO.builder()
                 .id(cartItem.getId())
-                .productResponseDTO(productMapper.toDto(cartItem.getProduct()))
+                .slimProductDTO(productMapper.toSlimDto(cartItem.getProduct()))
                 .quantity(cartItem.getQuantity())
                 .build();
     }
 
-    public CartItem toEntity(CartItemRequestDTO cartItemUpdateRequestDTO){
+    public CartItem toEntity(CartItemRequestDTO cartItemUpdateRequestDTO,Long productId){
 
-        Long id = cartItemUpdateRequestDTO.getProductId();
-        Product product = productRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Product with ID" + id + " not found"));
+        Product product = productService.getProductEntityById(productId);
         return CartItem.builder()
                 .quantity(cartItemUpdateRequestDTO.getQuantity())
                 .product(product)

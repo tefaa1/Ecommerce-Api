@@ -10,6 +10,7 @@ public interface ProductService {
     ProductResponseDTO saveProduct(ProductRequestDTO productRequestDTO);
     ProductResponseDTO updateProduct(Long id, ProductRequestDTO productRequestDTO);
     ProductResponseDTO getProductById(Long id);
+    Product getProductEntityById(Long id);
 //    stay here until I need them
 //    Product getProductWithCartItems(Long id);
 //    Product getProductWithWishlist(Long id);

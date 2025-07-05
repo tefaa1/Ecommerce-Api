@@ -19,7 +19,7 @@ public class OrderItemMapper {
     public static OrderItemResponseDTO toDto(OrderItem orderItem) {
         return OrderItemResponseDTO.builder()
                 .id(orderItem.getId())
-                .productResponseDTO(productMapper.toDto(orderItem.getProduct()))
+                .slimProductDTO(productMapper.toSlimDto(orderItem.getProduct()))
                 .quantity(orderItem.getQuantity())
                 .priceAtOrderTime(orderItem.getPriceAtOrderTime())
                 .build();

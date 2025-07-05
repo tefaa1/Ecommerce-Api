@@ -40,23 +40,26 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**","/swagger-ui/**", "/v3/api-docs/**").permitAll()
 
-                        .requestMatchers("/api/cart/all").hasRole("ADMIN")
+                        .requestMatchers("/api/cart/admin/all").hasRole("ADMIN")
                         .requestMatchers("/api/cart/**").authenticated()
 
                         .requestMatchers(HttpMethod.GET,"/api/category/**").authenticated()
                         .requestMatchers("/api/category/**").hasRole("ADMIN")
 
-                        .requestMatchers("/api/order/allOrders").hasRole("ADMIN")
+                        .requestMatchers("/api/order/admin/all").hasRole("ADMIN")
                         .requestMatchers("/api/order/**").authenticated()
 
                         .requestMatchers(HttpMethod.GET,"/api/product/**").authenticated()
                         .requestMatchers("/api/product/**").hasRole("ADMIN")
 
-                        .requestMatchers("/api/review/allReviews").hasRole("ADMIN")
+                        .requestMatchers("/api/review/admin/all").hasRole("ADMIN")
                         .requestMatchers("/api/review/**").authenticated()
 
-                        .requestMatchers("/api/user/allUsers").hasRole("ADMIN")
+                        .requestMatchers("/api/user/admin/all").hasRole("ADMIN")
                         .requestMatchers("/api/user/**").authenticated()
+
+                        .requestMatchers("/api/wishlist/**").authenticated()
+
                         .anyRequest().authenticated()
                 )
                 .userDetailsService(uds)

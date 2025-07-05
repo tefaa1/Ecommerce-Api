@@ -1,7 +1,9 @@
 package com.ecommerce_api.demo.controller;
 
 import com.ecommerce_api.demo.model.dto.request.LoginRequestDTO;
+import com.ecommerce_api.demo.model.dto.request.RefreshRequest;
 import com.ecommerce_api.demo.model.dto.request.RegisterRequestDTO;
+import com.ecommerce_api.demo.model.dto.response.AuthenticationResponse;
 import com.ecommerce_api.demo.model.dto.response.UserResponseDTO;
 import com.ecommerce_api.demo.model.entity.User;
 import com.ecommerce_api.demo.model.mapper.UserMapper;
@@ -15,6 +17,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -37,7 +41,15 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequestDTO request) {
 
-        String jwt = userService.login(request);
-        return ResponseEntity.ok().body(jwt);
+        AuthenticationResponse authenticationResponse = userService.login(request);
+        return ResponseEntity.ok().body(authenticationResponse);
     }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<?> refresh(@Valid @RequestBody RefreshRequest request) {
+
+        AuthenticationResponse auth = userService.refreshAccessToken(request.getRefreshToken());
+        return ResponseEntity.ok().body(auth);
+    }
+
 }

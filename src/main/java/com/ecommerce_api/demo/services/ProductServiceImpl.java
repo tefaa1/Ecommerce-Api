@@ -20,7 +20,8 @@ public class ProductServiceImpl implements ProductService{
     private final ProductMapper productMapper;
 
     @Autowired
-    public ProductServiceImpl(ProductRepository productRepository,ProductMapper productMapper){
+    public ProductServiceImpl(ProductRepository productRepository,
+                              ProductMapper productMapper){
 
         this.productRepository = productRepository;
         this.productMapper = productMapper;
@@ -30,6 +31,8 @@ public class ProductServiceImpl implements ProductService{
     public ProductResponseDTO saveProduct(ProductRequestDTO productRequestDTO) {
 
         Product product = productMapper.toEntity(productRequestDTO);
+        productRepository.save(product);
+
         return productMapper.toDto(productRepository.save(product));
     }
 
@@ -46,6 +49,8 @@ public class ProductServiceImpl implements ProductService{
         product.setDiscount(product.getDiscount());
         product.setImageUrl(product.getImageUrl());
 
+        productRepository.save(product);
+
         return productMapper.toDto(product);
     }
 
@@ -55,6 +60,13 @@ public class ProductServiceImpl implements ProductService{
                 .orElseThrow(() -> new ResourceNotFoundException("Product with ID" + id + " not found"));
 
        return productMapper.toDto(product);
+    }
+
+    @Override
+    public Product getProductEntityById(Long id) {
+
+        return productRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Product with ID" + id + " not found"));
     }
 
     @Override

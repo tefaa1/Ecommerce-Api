@@ -14,9 +14,11 @@ import com.ecommerce_api.demo.repository.CartRepository;
 import com.ecommerce_api.demo.repository.ProductRepository;
 import com.ecommerce_api.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,37 +30,49 @@ public class CartServiceImpl implements CartService{
 
     private final CartMapper cartMapper;
 
-    private final UserRepository userRepository;
+    private final UserService userService;
+
+    private final ProductService productService;
 
     private final CartItemMapper cartItemMapper;
 
-    private final CartItemRepository cartItemRepository;
+    private final CartItemService cartItemService;
     @Autowired
     public CartServiceImpl(
             CartRepository cartRepository,
             CartMapper cartMapper,
-            UserRepository userRepository,
+            UserService userService,
             CartItemMapper cartItemMapper,
-            CartItemRepository cartItemRepository){
+            CartItemService cartItemService,
+            ProductService productService){
 
         this.cartRepository = cartRepository;
         this.cartMapper = cartMapper;
-        this.userRepository = userRepository;
+        this.userService = userService;
         this.cartItemMapper = cartItemMapper;
-        this.cartItemRepository = cartItemRepository;
+        this.cartItemService = cartItemService;
+        this.productService = productService;
     }
 
     @Override
-    public void addProductToCart(CartItemRequestDTO cartItemRequestDTO) {
+    public void addProductToCart(CartItemRequestDTO cartItemRequestDTO, Long productId) {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = authentication.getName();
+        Cart cart = userService.getTheCurrentUser().getCart();
+        for (CartItem cartItem : cart.getCartItems()) {
 
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new ResourceNotFoundException("User with Email " + email + " not found"));
+            if (productId.equals(cartItem.getProduct().getId())) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This product is already in the cart");
+            }
+        }
 
-        Cart cart = user.getCart();
-        cart.addCartItem(cartItemMapper.toEntity(cartItemRequestDTO));
+        Product product = productService.getProductEntityById(productId);
+        if(product.getStockQuantity() < cartItemRequestDTO.getQuantity()){
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Requested quantity exceeds available stock. Only " + product.getStockQuantity() + " left in stock."
+            );
+        }
+        cart.addCartItem(cartItemMapper.toEntity(cartItemRequestDTO, productId));
 
         cartRepository.save(cart);
     }
@@ -66,17 +80,13 @@ public class CartServiceImpl implements CartService{
     @Override
     public void removeProductFromCart(Long cartItemId) {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = authentication.getName();
+        Cart cart = userService.getTheCurrentUser().getCart();
+        CartItem cartItem = cartItemService.getCartItemById(cartItemId);
 
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new ResourceNotFoundException("User with Email " + email + " not found"));
-
-        Cart cart = user.getCart();
-        CartItem cartItem = cartItemRepository.findById(cartItemId)
-                        .orElseThrow(() -> new ResourceNotFoundException("CartItem with Id " + cartItemId + " not found"));
+        if(!cart.getCartItems().contains(cartItem)){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This product is not in your cart");
+        }
         cart.removeCartItem(cartItem);
-
         cartRepository.save(cart);
     }
 
@@ -84,13 +94,8 @@ public class CartServiceImpl implements CartService{
     @Override
     public CartResponseDTO getCart() {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = authentication.getName();
+        Cart cart = userService.getTheCurrentUser().getCart();
 
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new ResourceNotFoundException("User with Email " + email + " not found"));
-
-        Cart cart = user.getCart();
         return cartMapper.toDto(cart);
     }
 
@@ -100,6 +105,38 @@ public class CartServiceImpl implements CartService{
         List<Cart>carts = cartRepository.findAllCartsWithCartItems()
                 .orElseThrow(() -> new ResourceNotFoundException("There is no carts"));
 
-        return carts.stream().map(cartMapper::toDto).collect(Collectors.toList());
+        return carts.stream()
+                .map(cartMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Cart findCartWithItemsByCartId(Long id) {
+
+        return cartRepository.findCartWithItemsByCartId(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Cart with Id " + id + " not found"));
+    }
+
+    @Override
+    public void modifyQuantityOfCartItem(Long id, boolean UpOrDown) {
+
+        Cart cart = userService.getTheCurrentUser().getCart();
+        CartItem cartItem = cartItemService.getCartItemById(id);
+
+        if(!cart.getCartItems().contains(cartItem)){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found");
+        }
+        Product product = productService.getProductEntityById(cartItem.getId());
+
+        int nextQuantity = cartItem.getQuantity() + (UpOrDown ? 1 : -1);
+        if (nextQuantity > product.getStockQuantity()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot add more than available stock");
+        }
+        if (nextQuantity < 1) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Quantity cannot be less than 1");
+        }
+
+        cartItem.setQuantity(nextQuantity);
+        cartItemService.save(cartItem);
     }
 }

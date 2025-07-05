@@ -2,6 +2,7 @@ package com.ecommerce_api.demo.model.mapper;
 
 import com.ecommerce_api.demo.model.dto.request.ProductRequestDTO;
 import com.ecommerce_api.demo.model.dto.response.ProductResponseDTO;
+import com.ecommerce_api.demo.model.dto.slimDto.SlimProductDTO;
 import com.ecommerce_api.demo.model.entity.Product;
 import org.springframework.stereotype.Component;
 
@@ -17,8 +18,15 @@ public class ProductMapper {
                 .stockQuantity(product.getStockQuantity())
                 .discount(product.getDiscount())
                 .imageUrl(product.getImageUrl())
-                .createdAt(product.getCreatedAt())
-                .updatedAt(product.getUpdatedAt())
+                .build();
+    }
+
+    public SlimProductDTO toSlimDto(Product product) {
+        return SlimProductDTO.builder()
+                .id(product.getId())
+                .name(product.getName())
+                .discountedPrice(product.getNewPrice())
+
                 .build();
     }
 

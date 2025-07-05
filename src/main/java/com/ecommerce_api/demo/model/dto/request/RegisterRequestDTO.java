@@ -1,5 +1,6 @@
 package com.ecommerce_api.demo.model.dto.request;
 
+import com.ecommerce_api.demo.annotations.PasswordMatches;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -12,6 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@PasswordMatches
 public class RegisterRequestDTO {
 
     @NotBlank
@@ -31,4 +33,6 @@ public class RegisterRequestDTO {
     )
     private String password;
 
+    @NotBlank
+    private String confirmPassword;
 }

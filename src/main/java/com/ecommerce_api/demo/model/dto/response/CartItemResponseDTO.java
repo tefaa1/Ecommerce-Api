@@ -1,5 +1,6 @@
 package com.ecommerce_api.demo.model.dto.response;
 
+import com.ecommerce_api.demo.model.dto.slimDto.SlimProductDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +14,7 @@ public class CartItemResponseDTO {
 
     private Long id;
 
-    private ProductResponseDTO productResponseDTO;
+    private SlimProductDTO slimProductDTO;
 
     private Integer quantity;
 

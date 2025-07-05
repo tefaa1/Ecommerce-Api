@@ -29,7 +29,7 @@ public class ReviewMapper {
                 .rating(review.getRating())
                 .comment(review.getComment())
                 .createdAt(review.getCreatedAt())
-                .productResponseDTO(productMapper.toDto(review.getProduct()))
+                .slimProductDTO(productMapper.toSlimDto(review.getProduct()))
                 .slimUserDTO(userMapper.toSlimDto(review.getUser()))
                 .build();
     }

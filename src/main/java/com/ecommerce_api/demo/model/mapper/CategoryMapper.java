@@ -2,6 +2,8 @@ package com.ecommerce_api.demo.model.mapper;
 
 import com.ecommerce_api.demo.model.dto.request.CategoryRequestDTO;
 import com.ecommerce_api.demo.model.dto.response.CategoryResponseDTO;
+import com.ecommerce_api.demo.model.dto.slimDto.SlimCategoryDTO;
+import com.ecommerce_api.demo.model.dto.slimDto.SlimUserDTO;
 import com.ecommerce_api.demo.model.entity.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -27,6 +29,15 @@ public class CategoryMapper{
                 .products(category.getProducts().stream()
                         .map(productMapper::toDto)
                         .collect(Collectors.toSet()))
+                .build();
+    }
+
+    public SlimCategoryDTO toSlimDto(Category category){
+        return SlimCategoryDTO.builder()
+                .id(category.getId())
+                .name(category.getName())
+                .description(category.getDescription())
+                .imageUrl(category.getImageUrl())
                 .build();
     }
 

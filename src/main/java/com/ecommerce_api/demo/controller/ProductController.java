@@ -23,14 +23,14 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<ProductResponseDTO> createProduct(@Valid @RequestBody ProductRequestDTO productRequestDTO){
+    public ResponseEntity<?> createProduct(@Valid @RequestBody ProductRequestDTO productRequestDTO){
 
         ProductResponseDTO productResponseDTO = productService.saveProduct(productRequestDTO);
         return new ResponseEntity<>(productResponseDTO, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProductResponseDTO> updateProduct(
+    public ResponseEntity<?> updateProduct(
             @PathVariable Long id,
             @Valid @RequestBody ProductRequestDTO productRequestDTO){
 
@@ -39,21 +39,21 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductResponseDTO> getProductById(@PathVariable Long id){
+    public ResponseEntity<?> getProductById(@PathVariable Long id){
 
         ProductResponseDTO productResponseDTO = productService.getProductById(id);
         return ResponseEntity.ok(productResponseDTO);
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<List<ProductResponseDTO>> getAllProducts(){
+    @GetMapping
+    public ResponseEntity<?> getAllProducts(){
 
         List<ProductResponseDTO> productResponseDTOList = productService.getAllProducts();
         return ResponseEntity.ok(productResponseDTOList);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void>deleteProductById(@PathVariable Long id){
+    public ResponseEntity<?>deleteProductById(@PathVariable Long id){
 
         productService.deleteProductById(id);
         return ResponseEntity.noContent().build();

@@ -1,6 +1,7 @@
 package com.ecommerce_api.demo.security;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.ecommerce_api.demo.services.TokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,11 +21,16 @@ public class JWTFilter extends OncePerRequestFilter {
 
     private final MyUserDetailsService userDetailsService;
     private final JWTUtil jwtUtil;
+    private final TokenService tokenService;
 
     @Autowired
-    public JWTFilter(MyUserDetailsService userDetailsService, JWTUtil jwtUtil) {
+    public JWTFilter(MyUserDetailsService userDetailsService,
+                     JWTUtil jwtUtil,
+                     TokenService tokenService) {
+
         this.userDetailsService = userDetailsService;
         this.jwtUtil = jwtUtil;
+        this.tokenService = tokenService;
     }
 
     @Override
@@ -38,7 +44,15 @@ public class JWTFilter extends OncePerRequestFilter {
             String jwt = authHeader.substring(7);
 
             try {
-                String email = jwtUtil.validateTokenAndRetrieveSubject(jwt);
+                if(tokenService.isBlacklisted(jwt)){
+                    throw new JWTVerificationException("Token is blacklisted");
+                }
+
+                if (!jwtUtil.isTokenValid(jwt)) {
+                    throw new JWTVerificationException("Token is expired or invalid");
+                }
+
+                String email = jwtUtil.extractEmail(jwt);
                 UserDetails userDetails = userDetailsService.loadUserByUsername(email);
 
                 UsernamePasswordAuthenticationToken authToken =
