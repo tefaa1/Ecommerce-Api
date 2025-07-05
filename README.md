@@ -1,13 +1,13 @@
 
-# 🛒 E-Commerce REST API
+# E-Commerce REST API
 
 A powerful and production-ready **E-Commerce Backend API** built using **Spring Boot**, featuring full user authentication, role-based authorization, product and order management, wishlist, reviews, and token blacklisting via Redis.
 
 ---
 
-## 🚀 Features
+## Features
 
-### 🔐 Authentication & Authorization
+### Authentication & Authorization
 - Register/Login with JWT
 - Access & Refresh Tokens
 - Role-Based Access Control (RBAC) for `ADMIN` and `USER`
@@ -17,7 +17,7 @@ A powerful and production-ready **E-Commerce Backend API** built using **Spring 
 
 ---
 
-### 🛍️ Product & Category Management
+### Product & Category Management
 - Create, update, delete, and fetch products  
 - Support for categories and subcategories  
 - Link/unlink products with categories  
@@ -26,7 +26,7 @@ A powerful and production-ready **E-Commerce Backend API** built using **Spring 
 
 ---
 
-### 🧺 Cart & Order Handling
+### Cart & Order Handling
 - Add/remove/modify cart items
 - Create orders from cart
 - Admin can view all orders
@@ -34,20 +34,20 @@ A powerful and production-ready **E-Commerce Backend API** built using **Spring 
 
 ---
 
-### 🌟 Reviews
+### Reviews
 - Add review to a product
 - View your reviews or for specific products
 - Admin can access/delete all reviews
 
 ---
 
-### ❤️ Wishlist
+### Wishlist
 - Add/remove products from wishlist
 - View your wishlist
 
 ---
 
-### 👤 User Profile
+### User Profile
 - View your account data
 - Change password or name
 - Delete your account
@@ -55,7 +55,7 @@ A powerful and production-ready **E-Commerce Backend API** built using **Spring 
 
 ---
 
-## 🧠 Redis Integration
+## Redis Integration
 
 - ✅ Token blacklisting (logout-safe)
 - ✅ High-performance token tracking
@@ -63,7 +63,7 @@ A powerful and production-ready **E-Commerce Backend API** built using **Spring 
 
 ---
 
-## 🧱 Project Structure
+## Project Structure
 
 ```
 src/
@@ -81,7 +81,7 @@ src/
 
 ---
 
-## 📁 Tech Stack
+## Tech Stack
 
 | Layer        | Technology                |
 |--------------|---------------------------|
@@ -98,7 +98,7 @@ src/
 
 ---
 
-## 📦 API Overview
+## API Overview
 
 | Resource   | Methods Covered                           |
 |------------|--------------------------------------------|
@@ -111,7 +111,7 @@ src/
 | Wishlist   | add, remove, get                           |
 | User       | update name/pass, delete, get info         |
 
-📜 Full Swagger documentation available at:
+Full Swagger documentation available at:
 
 ```
 http://localhost:8080/swagger-ui/index.html
@@ -119,7 +119,7 @@ http://localhost:8080/swagger-ui/index.html
 
 ---
 
-## ▶️ Getting Started
+## Getting Started
 
 ```bash
 git clone https://github.com/your-username/ecommerce-api.git
@@ -132,7 +132,7 @@ cd ecommerce-api
 
 ---
 
-## 🔐 Roles
+## Roles
 
 | Role    | Capabilities                                                                 |
 |---------|------------------------------------------------------------------------------|
@@ -141,7 +141,7 @@ cd ecommerce-api
 
 ---
 
-## 📌 Future Enhancements
+## Future Enhancements
 
 - Payment Gateway integration (Stripe, PayPal)
 - PDF invoice generator
