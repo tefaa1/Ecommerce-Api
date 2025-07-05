@@ -1,7 +1,7 @@
 
 # E-Commerce REST API
 
-A powerful and production-ready **E-Commerce Backend API** built using **Spring Boot**, featuring full user authentication, role-based authorization, product and order management, wishlist, reviews, and token blacklisting via Redis.
+A powerful and production-ready E-Commerce Backend API built with Spring Boot, following clean architecture principles with a layered structure (Controller, Service, Repository). The project uses DTOs for request/response abstraction, input validation, and includes Redis integration for secure token blacklisting. Designed for scalability, maintainability, and real-world deployment.
 
 ---
 
