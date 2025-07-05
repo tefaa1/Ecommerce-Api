@@ -10,7 +10,6 @@ A powerful and production-ready **E-Commerce Backend API** built using **Spring 
 ### 🔐 Authentication & Authorization
 - Register/Login with JWT
 - Access & Refresh Tokens
-- Google OAuth2 login *(optional integration-ready)*
 - Role-Based Access Control (RBAC) for `ADMIN` and `USER`
 - Redis-based token blacklisting for secure logout
 - Password encryption using BCrypt
@@ -19,11 +18,11 @@ A powerful and production-ready **E-Commerce Backend API** built using **Spring 
 ---
 
 ### 🛍️ Product & Category Management
-- Create, update, delete, and fetch products
-- Support for categories and subcategories
-- Link/unlink products with categories
-- Pagination-ready & scalable structure
-- Stock quantity + expiration support
+- Create, update, delete, and fetch products  
+- Support for categories and subcategories  
+- Link/unlink products with categories  
+- Pagination-ready & scalable structure  
+- Stock quantity management
 
 ---
 
@@ -86,7 +85,7 @@ src/
 
 | Layer        | Technology                |
 |--------------|---------------------------|
-| Language     | Java 17                   |
+| Language     | Java 21                   |
 | Framework    | Spring Boot               |
 | ORM          | Hibernate / JPA           |
 | Security     | Spring Security + JWT     |
@@ -136,7 +135,7 @@ cd ecommerce-api
 ## 🔐 Roles
 
 | Role    | Capabilities                                                                 |
-|---------|-------------------------------------------------------------------------------|
+|---------|------------------------------------------------------------------------------|
 | User    | Browse, order, review, wishlist, update profile                              |
 | Admin   | Manage products, users, categories, orders, reviews                          |
 
@@ -151,17 +150,3 @@ cd ecommerce-api
 - Product filtering, search, and pagination
 - Caching layer (Redis extension)
 
----
-
-## 👨‍💻 Author
-
-**Mohamed Abdellatif**  
-📧 mh8369629@gmail.com  
-🔗 [GitHub](https://github.com/your-username)  
-🔗 [Codeforces](https://codeforces.com/profile/TEFA)
-
----
-
-## 📄 License
-
-MIT License
