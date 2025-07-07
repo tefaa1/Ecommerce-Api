@@ -122,7 +122,7 @@ http://localhost:8080/swagger-ui/index.html
 ## Getting Started
 
 ```bash
-git clone https://github.com/your-username/ecommerce-api.git
+git clone https://github.com/tefaa1/Ecommerce-Api.git
 cd ecommerce-api
 ./mvnw spring-boot:run
 ```
